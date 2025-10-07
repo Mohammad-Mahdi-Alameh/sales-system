@@ -1,0 +1,143 @@
+classDiagram
+    class Product {
+        -Long id
+        -String name
+        -String description
+        -String category
+        -DateTime creationDate
+        +getId()
+        +getName()
+        +getDescription()
+        +getCategory()
+        +getCreationDate()
+        +setName()
+        +setDescription()
+        +setCategory()
+    }
+
+    class Client {
+        -Long id
+        -String name
+        -String lastName
+        -String mobile
+        +getId()
+        +getName()
+        +getLastName()
+        +getMobile()
+        +setName()
+        +setLastName()
+        +setMobile()
+        +getFullName()
+    }
+
+    class Sale {
+        -Long id
+        -DateTime creationDate
+        -Client client
+        -Seller seller
+        -Decimal total
+        -List~SaleTransaction~ transactions
+        +getId()
+        +getCreationDate()
+        +getClient()
+        +getSeller()
+        +getTotal()
+        +getTransactions()
+        +addTransaction()
+        +removeTransaction()
+        +calculateTotal()
+        +updateTransaction()
+    }
+
+    class SaleTransaction {
+        -Long id
+        -Sale sale
+        -Product product
+        -Integer quantity
+        -Decimal unitPrice
+        -Decimal subtotal
+        +getId()
+        +getSale()
+        +getProduct()
+        +getQuantity()
+        +getUnitPrice()
+        +getSubtotal()
+        +setQuantity()
+        +setUnitPrice()
+        +calculateSubtotal()
+    }
+
+    class Seller {
+        -Long id
+        -String name
+        -String lastName
+        -String employeeCode
+        +getId()
+        +getName()
+        +getLastName()
+        +getEmployeeCode()
+        +getFullName()
+    }
+
+    class TransactionLog {
+        -Long id
+        -DateTime timestamp
+        -Long saleTransactionId
+        -String operationType
+        -String fieldChanged
+        -String oldValue
+        -String newValue
+        -String modifiedBy
+        +getId()
+        +getTimestamp()
+        +getSaleTransactionId()
+        +getOperationType()
+        +getFieldChanged()
+        +getOldValue()
+        +getNewValue()
+        +getModifiedBy()
+    }
+
+    class ProductService {
+        +getAllProducts()
+        +getProductById()
+        +createProduct()
+        +updateProduct()
+        +deleteProduct()
+    }
+
+    class ClientService {
+        +getAllClients()
+        +getClientById()
+        +createClient()
+        +updateClient()
+        +deleteClient()
+    }
+
+    class SaleService {
+        +getAllSales()
+        +getSaleById()
+        +createSale()
+        +updateSaleTransaction()
+        +calculateSaleTotal()
+        +deleteSale()
+    }
+
+    class LoggingService {
+        +logTransactionUpdate()
+        +getLogsBySaleTransaction()
+        +getLogsByDateRange()
+    }
+
+    Sale "1" --> "*" SaleTransaction : contains
+    Sale "*" --> "1" Client : purchased by
+    Sale "*" --> "1" Seller : sold by
+    SaleTransaction "*" --> "1" Product : includes
+    TransactionLog "*" --> "1" SaleTransaction : logs changes to
+    
+    ProductService ..> Product : manages
+    ClientService ..> Client : manages
+    SaleService ..> Sale : manages
+    SaleService ..> SaleTransaction : manages
+    LoggingService ..> TransactionLog : creates
+    SaleService ..> LoggingService : uses
