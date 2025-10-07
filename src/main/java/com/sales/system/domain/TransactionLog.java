@@ -3,6 +3,7 @@ package com.sales.system.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -31,18 +32,18 @@ public class TransactionLog implements Serializable {
     @Column(name = "operation_type", length = 50, nullable = false)
     private String operationType;
 
-    @NotNull
-    @Size(max = 100)
-    @Column(name = "field_changed", length = 100, nullable = false)
-    private String fieldChanged;
-
-    @Size(max = 500)
-    @Column(name = "old_value", length = 500)
-    private String oldValue;
-
-    @Size(max = 500)
-    @Column(name = "new_value", length = 500)
-    private String newValue;
+//    @NotNull
+//    @Size(max = 100)
+//    @Column(name = "field_changed", length = 100, nullable = false)
+//    private String fieldChanged;
+//
+//    @Size(max = 500)
+//    @Column(name = "old_value", length = 500)
+//    private String oldValue;
+//
+//    @Size(max = 500)
+//    @Column(name = "new_value", length = 500)
+//    private String newValue;
 
     @NotNull
     @Size(max = 100)
@@ -50,7 +51,15 @@ public class TransactionLog implements Serializable {
     private String modifiedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "product", "sale" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {
+        "product",
+        "sale",
+        "quantity",
+        "unitPrice",
+        "subtotal",
+        "product",
+        "sale"
+    }, allowSetters = true)
     private SaleTransaction saleTransaction;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -94,44 +103,44 @@ public class TransactionLog implements Serializable {
         this.operationType = operationType;
     }
 
-    public String getFieldChanged() {
-        return this.fieldChanged;
-    }
+//    public String getFieldChanged() {
+//        return this.fieldChanged;
+//    }
 
-    public TransactionLog fieldChanged(String fieldChanged) {
-        this.setFieldChanged(fieldChanged);
-        return this;
-    }
+//    public TransactionLog fieldChanged(String fieldChanged) {
+//        this.setFieldChanged(fieldChanged);
+//        return this;
+//    }
+//
+//    public void setFieldChanged(String fieldChanged) {
+//        this.fieldChanged = fieldChanged;
+//    }
+//
+//    public String getOldValue() {
+//        return this.oldValue;
+//    }
+//
+//    public TransactionLog oldValue(String oldValue) {
+//        this.setOldValue(oldValue);
+//        return this;
+//    }
 
-    public void setFieldChanged(String fieldChanged) {
-        this.fieldChanged = fieldChanged;
-    }
+//    public void setOldValue(String oldValue) {
+//        this.oldValue = oldValue;
+//    }
+//
+//    public String getNewValue() {
+//        return this.newValue;
+//    }
 
-    public String getOldValue() {
-        return this.oldValue;
-    }
+//    public TransactionLog newValue(String newValue) {
+//        this.setNewValue(newValue);
+//        return this;
+//    }
 
-    public TransactionLog oldValue(String oldValue) {
-        this.setOldValue(oldValue);
-        return this;
-    }
-
-    public void setOldValue(String oldValue) {
-        this.oldValue = oldValue;
-    }
-
-    public String getNewValue() {
-        return this.newValue;
-    }
-
-    public TransactionLog newValue(String newValue) {
-        this.setNewValue(newValue);
-        return this;
-    }
-
-    public void setNewValue(String newValue) {
-        this.newValue = newValue;
-    }
+//    public void setNewValue(String newValue) {
+//        this.newValue = newValue;
+//    }
 
     public String getModifiedBy() {
         return this.modifiedBy;
@@ -185,9 +194,9 @@ public class TransactionLog implements Serializable {
             "id=" + getId() +
             ", timestamp='" + getTimestamp() + "'" +
             ", operationType='" + getOperationType() + "'" +
-            ", fieldChanged='" + getFieldChanged() + "'" +
-            ", oldValue='" + getOldValue() + "'" +
-            ", newValue='" + getNewValue() + "'" +
+//            ", fieldChanged='" + getFieldChanged() + "'" +
+//            ", oldValue='" + getOldValue() + "'" +
+//            ", newValue='" + getNewValue() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             "}";
     }

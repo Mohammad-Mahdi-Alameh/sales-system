@@ -76,9 +76,9 @@ public class TransactionLogQueryService extends QueryService<TransactionLog> {
                 buildRangeSpecification(criteria.getId(), TransactionLog_.id),
                 buildRangeSpecification(criteria.getTimestamp(), TransactionLog_.timestamp),
                 buildStringSpecification(criteria.getOperationType(), TransactionLog_.operationType),
-                buildStringSpecification(criteria.getFieldChanged(), TransactionLog_.fieldChanged),
-                buildStringSpecification(criteria.getOldValue(), TransactionLog_.oldValue),
-                buildStringSpecification(criteria.getNewValue(), TransactionLog_.newValue),
+//                buildStringSpecification(criteria.getFieldChanged(), TransactionLog_.fieldChanged),
+//                buildStringSpecification(criteria.getOldValue(), TransactionLog_.oldValue),
+//                buildStringSpecification(criteria.getNewValue(), TransactionLog_.newValue),
                 buildStringSpecification(criteria.getModifiedBy(), TransactionLog_.modifiedBy),
                 buildSpecification(criteria.getSaleTransactionId(), root ->
                     root.join(TransactionLog_.saleTransaction, JoinType.LEFT).get(SaleTransaction_.id)

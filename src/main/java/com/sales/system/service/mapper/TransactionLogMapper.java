@@ -11,7 +11,8 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface TransactionLogMapper extends EntityMapper<TransactionLogDTO, TransactionLog> {
-    @Mapping(target = "saleTransaction", source = "saleTransaction", qualifiedByName = "saleTransactionId")
+//    @Mapping(target = "saleTransaction", source = "saleTransaction", qualifiedByName = "saleTransactionId")
+    @Mapping(target = "saleTransactionId", expression = "java(s.getSaleTransaction() != null ? s.getSaleTransaction().getId() : null)")
     TransactionLogDTO toDto(TransactionLog s);
 
     @Named("saleTransactionId")

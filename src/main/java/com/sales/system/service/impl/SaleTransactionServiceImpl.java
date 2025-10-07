@@ -1,11 +1,16 @@
 package com.sales.system.service.impl;
 
 import com.sales.system.domain.SaleTransaction;
+import com.sales.system.domain.TransactionLog;
 import com.sales.system.repository.SaleTransactionRepository;
+import com.sales.system.repository.TransactionLogRepository;
 import com.sales.system.service.SaleTransactionService;
 import com.sales.system.service.dto.SaleTransactionDTO;
 import com.sales.system.service.mapper.SaleTransactionMapper;
+
+import java.time.Instant;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,10 +29,13 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
 
     private final SaleTransactionRepository saleTransactionRepository;
 
+    private final TransactionLogRepository transactionLogRepository;
+
     private final SaleTransactionMapper saleTransactionMapper;
 
-    public SaleTransactionServiceImpl(SaleTransactionRepository saleTransactionRepository, SaleTransactionMapper saleTransactionMapper) {
+    public SaleTransactionServiceImpl(SaleTransactionRepository saleTransactionRepository, SaleTransactionMapper saleTransactionMapper, TransactionLogRepository transactionLogRepository) {
         this.saleTransactionRepository = saleTransactionRepository;
+        this.transactionLogRepository = transactionLogRepository;
         this.saleTransactionMapper = saleTransactionMapper;
     }
 
@@ -36,6 +44,7 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
         LOG.debug("Request to save SaleTransaction : {}", saleTransactionDTO);
         SaleTransaction saleTransaction = saleTransactionMapper.toEntity(saleTransactionDTO);
         saleTransaction = saleTransactionRepository.save(saleTransaction);
+        saveTransactionLog("CREATE", saleTransaction);
         return saleTransactionMapper.toDto(saleTransaction);
     }
 
@@ -44,6 +53,7 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
         LOG.debug("Request to update SaleTransaction : {}", saleTransactionDTO);
         SaleTransaction saleTransaction = saleTransactionMapper.toEntity(saleTransactionDTO);
         saleTransaction = saleTransactionRepository.save(saleTransaction);
+        saveTransactionLog("PUT", saleTransaction);
         return saleTransactionMapper.toDto(saleTransaction);
     }
 
@@ -55,7 +65,12 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
             .findById(saleTransactionDTO.getId())
             .map(existingSaleTransaction -> {
                 saleTransactionMapper.partialUpdate(existingSaleTransaction, saleTransactionDTO);
-
+                Optional<SaleTransaction> saleTransactionOpt = saleTransactionRepository.findById(saleTransactionDTO.getId());
+                if (saleTransactionOpt.isPresent()) {
+                    SaleTransaction saleTransaction = saleTransactionOpt.get();
+                    saleTransactionRepository.deleteById(saleTransactionDTO.getId());
+                    saveTransactionLog("PATCH", saleTransaction);
+                }
                 return existingSaleTransaction;
             })
             .map(saleTransactionRepository::save)
@@ -83,6 +98,18 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
     @Override
     public void delete(Long id) {
         LOG.debug("Request to delete SaleTransaction : {}", id);
+        SaleTransaction saleTransaction = saleTransactionRepository.getReferenceById(id);
+        saveTransactionLog("DELETE", saleTransaction);
         saleTransactionRepository.deleteById(id);
     }
+
+    public void saveTransactionLog(String operationType, SaleTransaction saleTransaction) {
+        TransactionLog log = new TransactionLog();
+        log.setTimestamp(Instant.now());
+        log.setOperationType(operationType);
+        log.setModifiedBy("system");
+        log.setSaleTransaction(saleTransaction);
+        transactionLogRepository.save(log);
+    }
+
 }

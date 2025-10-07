@@ -1,6 +1,7 @@
 package com.sales.system.service.dto;
 
 import jakarta.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -20,21 +21,22 @@ public class TransactionLogDTO implements Serializable {
     @Size(max = 50)
     private String operationType;
 
-    @NotNull
-    @Size(max = 100)
-    private String fieldChanged;
+//    @NotNull
+//    @Size(max = 100)
+//    private String fieldChanged;
+//
+//    @Size(max = 500)
+//    private String oldValue;
+//
+//    @Size(max = 500)
+//    private String newValue;
+//
+//    @NotNull
+//    @Size(max = 100)
+//    private String modifiedBy;
 
-    @Size(max = 500)
-    private String oldValue;
-
-    @Size(max = 500)
-    private String newValue;
-
-    @NotNull
-    @Size(max = 100)
-    private String modifiedBy;
-
-    private SaleTransactionDTO saleTransaction;
+//    private SaleTransactionDTO saleTransaction;
+    private Long saleTransactionId;
 
     public Long getId() {
         return id;
@@ -42,6 +44,14 @@ public class TransactionLogDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSaleTransactionId() {
+        return saleTransactionId;
+    }
+
+    public void setSaleTransactionId(Long saleTransactionId) {
+        this.saleTransactionId = saleTransactionId;
     }
 
     public Instant getTimestamp() {
@@ -60,45 +70,45 @@ public class TransactionLogDTO implements Serializable {
         this.operationType = operationType;
     }
 
-    public String getFieldChanged() {
-        return fieldChanged;
-    }
+//    public String getFieldChanged() {
+//        return fieldChanged;
+//    }
 
-    public void setFieldChanged(String fieldChanged) {
-        this.fieldChanged = fieldChanged;
-    }
+//    public void setFieldChanged(String fieldChanged) {
+//        this.fieldChanged = fieldChanged;
+//    }
 
-    public String getOldValue() {
-        return oldValue;
-    }
+//    public String getOldValue() {
+//        return oldValue;
+//    }
 
-    public void setOldValue(String oldValue) {
-        this.oldValue = oldValue;
-    }
+//    public void setOldValue(String oldValue) {
+//        this.oldValue = oldValue;
+//    }
+//
+//    public String getNewValue() {
+//        return newValue;
+//    }
+//
+//    public void setNewValue(String newValue) {
+//        this.newValue = newValue;
+//    }
+//
+//    public String getModifiedBy() {
+//        return modifiedBy;
+//    }
+//
+//    public void setModifiedBy(String modifiedBy) {
+//        this.modifiedBy = modifiedBy;
+//    }
 
-    public String getNewValue() {
-        return newValue;
-    }
-
-    public void setNewValue(String newValue) {
-        this.newValue = newValue;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public SaleTransactionDTO getSaleTransaction() {
-        return saleTransaction;
-    }
-
-    public void setSaleTransaction(SaleTransactionDTO saleTransaction) {
-        this.saleTransaction = saleTransaction;
-    }
+//    public SaleTransactionDTO getSaleTransaction() {
+//        return saleTransaction;
+//    }
+//
+//    public void setSaleTransaction(SaleTransactionDTO saleTransaction) {
+//        this.saleTransaction = saleTransaction;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -128,11 +138,11 @@ public class TransactionLogDTO implements Serializable {
             "id=" + getId() +
             ", timestamp='" + getTimestamp() + "'" +
             ", operationType='" + getOperationType() + "'" +
-            ", fieldChanged='" + getFieldChanged() + "'" +
-            ", oldValue='" + getOldValue() + "'" +
-            ", newValue='" + getNewValue() + "'" +
-            ", modifiedBy='" + getModifiedBy() + "'" +
-            ", saleTransaction=" + getSaleTransaction() +
+//            ", fieldChanged='" + getFieldChanged() + "'" +
+//            ", oldValue='" + getOldValue() + "'" +
+//            ", newValue='" + getNewValue() + "'" +
+//            ", modifiedBy='" + getModifiedBy() + "'" +
+//            ", saleTransaction=" + getSaleTransaction() +
             "}";
     }
 }
