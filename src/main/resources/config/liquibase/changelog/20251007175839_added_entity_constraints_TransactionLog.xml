@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity TransactionLog.
+    -->
+    <changeSet id="20251007175839-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="sale_transaction_id"
+                                 baseTableName="transaction_log"
+                                 constraintName="fk_transaction_log__sale_transaction_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sale_transaction"
+                                 />
+    </changeSet>
+</databaseChangeLog>

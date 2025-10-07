@@ -1,0 +1,55 @@
+entity Product {
+  name String required maxlength(100)
+  description String maxlength(500)
+  category String required maxlength(50)
+  creationDate Instant required
+}
+
+entity Client {
+  name String required maxlength(100)
+  lastName String required maxlength(100)
+  mobile String required maxlength(20)
+}
+
+entity Seller {
+  name String required maxlength(100)
+  lastName String required maxlength(100)
+  employeeCode String required unique maxlength(50)
+}
+
+entity Sale {
+  creationDate Instant required
+  total BigDecimal required min(0)
+}
+
+entity SaleTransaction {
+  quantity Integer required min(1)
+  unitPrice BigDecimal required min(0)
+  subtotal BigDecimal required min(0)
+}
+
+entity TransactionLog {
+  timestamp Instant required
+  operationType String required maxlength(50)
+  fieldChanged String required maxlength(100)
+  oldValue String maxlength(500)
+  newValue String maxlength(500)
+  modifiedBy String required maxlength(100)
+}
+
+relationship ManyToOne {
+  Sale{client(name) required} to Client
+  Sale{seller(employeeCode) required} to Seller
+  SaleTransaction{product(name) required} to Product
+  TransactionLog{saleTransaction} to SaleTransaction
+}
+
+relationship OneToMany {
+  Sale{transactions} to SaleTransaction{sale required}
+}
+
+dto * with mapstruct
+service * with serviceImpl
+paginate * with pagination
+filter Product, Client, Seller, Sale, TransactionLog
+
